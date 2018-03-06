@@ -1,14 +1,14 @@
-#ifndef LEDctl_h
-#define LEDctl_h
+#ifndef PinControl_h
+#define PinControl_h
 
 #include <Arduino.h>
 
 
-class LEDctl{
+class PinControl{
 
 public:
-  LEDctl(byte pin); // contructor
-  LEDctl(byte pin, boolean inv); // contructor
+  PinControl(byte pin); // contructor
+  PinControl(byte pin, boolean inv); // contructor
   void update(); // main entry point, call as often as possible
   void flash(int interval);
   void flash(int interval, int times);
