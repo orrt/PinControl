@@ -1,7 +1,7 @@
 #include "PinControl.h"
 
 
-PinControl::PinControlbyte pin):
+PinControl::PinControl(byte pin):
   _pin(pin),
   _remFlashes(0)
 { // constructor
