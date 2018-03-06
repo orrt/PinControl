@@ -1,7 +1,7 @@
-#include "LEDctl.h"
+#include "PinControl.h"
 
 
-LEDctl::LEDctl(byte pin):
+PinControl::PinControlbyte pin):
   _pin(pin),
   _remFlashes(0)
 { // constructor
@@ -9,7 +9,7 @@ LEDctl::LEDctl(byte pin):
   _off();
 }
 
-LEDctl::LEDctl(byte pin, boolean inv):
+PinControl::PinControl(byte pin, boolean inv):
   _pin(pin),
   _remFlashes(0)
 { // constructor
@@ -18,7 +18,7 @@ LEDctl::LEDctl(byte pin, boolean inv):
   _off();
 }
 
-void LEDctl::update(){
+void PinControl::update(){
   if (_remFlashes > 0) {
     if ( millis() >= _lastCycleStart + (_flashInt >> 1) ) {
       // toggle LED state
@@ -37,32 +37,32 @@ void LEDctl::update(){
   }
 }
 
-void LEDctl::on(){
+void PinControl::on(){
   _on();
   _remFlashes = 0;
 }
 
-void LEDctl::off(){
+void PinControl::off(){
   _off();
   _remFlashes = 0;
 }
 
 
-void LEDctl::flash(int interval){
+void PinControl::flash(int interval){
   flash(interval, -1);
 }
 
-void LEDctl::flash(int interval, int times){
+void PinControl::flash(int interval, int times){
   _flashInt = interval;
   _remFlashes = times * 2;
   _lastCycleStart = millis(); // remember when we started to flash
 }
 
 // wrappers for digital write so we can invert easily
-void LEDctl::_on(){
+void PinControl::_on(){
   digitalWrite(_pin, HIGH ^ inverted);
 }
-void LEDctl::_off(){
+void PinControl::_off(){
   digitalWrite(_pin, LOW ^ inverted);
 }
 
