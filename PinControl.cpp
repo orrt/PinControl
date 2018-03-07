@@ -3,33 +3,33 @@
 
 PinControl::PinControl(byte pin):
   _pin(pin),
-  _remFlashes(0)
-{ // constructor
+  _remToggles(0)
+{ 
   pinMode(_pin, OUTPUT);
   _off();
 }
 
 PinControl::PinControl(byte pin, boolean inv):
   _pin(pin),
-  _remFlashes(0)
-{ // constructor
+  _remToggles(0)
+{ 
   pinMode(_pin, OUTPUT);
   inverted = inv;
   _off();
 }
 
 void PinControl::update(){
-  if (_remFlashes > 0) {
-    if ( millis() >= _lastCycleStart + (_flashInt >> 1) ) {
-      // toggle LED state
+  if (_remToggles > 0) {
+    if ( millis() >= _lastCycleStart + (_toggleInt >> 1) ) {
+      // toggle pin 
       digitalWrite( _pin, !digitalRead(_pin) );
       _lastCycleStart = millis();
-      _remFlashes--;
+      _remToggles--;
      }
-  } else if (_remFlashes == 0) {
+  } else if (_remToggles == 0) {
     //
-  } else if (_remFlashes < 0) {
-    if ( millis() >= _lastCycleStart + (_flashInt >> 1) ) {
+  } else if (_remToggles < 0) {
+    if ( millis() >= _lastCycleStart + (_toggleInt >> 1) ) {
       // toggle LED state
       digitalWrite( _pin, !digitalRead(_pin) );
       _lastCycleStart = millis();
@@ -39,22 +39,21 @@ void PinControl::update(){
 
 void PinControl::on(){
   _on();
-  _remFlashes = 0;
+  _remToggles = 0;
 }
 
 void PinControl::off(){
   _off();
-  _remFlashes = 0;
+  _remToggles = 0;
 }
 
-
-void PinControl::flash(int interval){
-  flash(interval, -1);
+void PinControl::toggle(int interval){
+  toggle(interval, -1);
 }
 
-void PinControl::flash(int interval, int times){
-  _flashInt = interval;
-  _remFlashes = times * 2;
+void PinControl::toggle(int interval, int times){
+  _toggleInt = interval;
+  _remToggles = times * 2;
   _lastCycleStart = millis(); // remember when we started to flash
 }
 
